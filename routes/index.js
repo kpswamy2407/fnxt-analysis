@@ -41,6 +41,7 @@ router.post('/salesinvoice',(req,res,nxt)=>{
 	  const db = client.db(dbName);
 	 
 	  insertDocuments(db,req.body,'salesinvoices', function() {
+	    console.log(arguments);
 	    client.close();
 	    res.json({
             status:'1',
