@@ -41,7 +41,7 @@ router.post('/salesinvoice',(req,res,nxt)=>{
 	  const db = client.db(dbName);
 	 
 	  insertDocuments(db,req.body,'salesinvoices', function() {
-	    console.log(arguments);
+	    
 	    client.close();
 	    res.json({
             status:'1',
@@ -56,6 +56,7 @@ const insertDocuments = function(db,data,service,callback) {
   const collection = db.collection(service);
   // Insert some documents
   collection.insertOne(data, function(err, result) {
+  	console.log(arguments);
     assert.equal(err, null);
     assert.equal(1, result.result.n);
     assert.equal(1, result.ops.length);
