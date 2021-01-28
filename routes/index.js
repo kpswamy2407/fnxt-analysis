@@ -16,10 +16,8 @@ router.post('/salesorder',(req,res,nxt)=>{
 	
 	// Use connect method to connect to the server
 	MongoClient.connect(url, function(err, client) {
-	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
-	 
-	  const db = client.db(dbName);
+	 assert.equal(null, err);
+	 const db = client.db(dbName);
 	 
 	  insertDocuments(db,req.body,'salesorders', function() {
 	    client.close();
@@ -35,10 +33,8 @@ router.post('/salesinvoice',(req,res,nxt)=>{
 	
 	// Use connect method to connect to the server
 	MongoClient.connect(url, function(err, client) {
-	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
-	 
-	  const db = client.db(dbName);
+	 assert.equal(null, err);
+	 const db = client.db(dbName);
 	 
 	  insertDocuments(db,req.body,'salesinvoices', function() {
 	    
@@ -56,11 +52,9 @@ const insertDocuments = function(db,data,service,callback) {
   const collection = db.collection(service);
   // Insert some documents
   collection.insertOne(data, function(err, result) {
-  	console.log(arguments);
-    assert.equal(err, null);
+  	assert.equal(err, null);
     assert.equal(1, result.result.n);
     assert.equal(1, result.ops.length);
-    console.log("Inserted 1 documents into the collection");
     callback(result);
   });
 }
@@ -105,7 +99,7 @@ router.get('/test',(req,res,next)=>{
 	// Use connect method to connect to the server
 	MongoClient.connect(url, function(err, client) {
 	  assert.equal(null, err);
-	  console.log("Connected successfully to server");
+	  
 	  const db = client.db(dbName);
 	  client.close()
 	  res.json({
