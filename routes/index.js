@@ -1,11 +1,10 @@
-const envs=require('dotenv').config();
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-
+const bodyParser=require('body-parser');
 const url = 'mongodb://'+process.env.FNXT_MONGO_HOST+':'+process.env.FNXT_MONGO_PORT;
-console.log(url);
 const dbName = process.env.FNXT_MONGO_DBNAME;
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -29,7 +28,9 @@ router.post('/salesorder',(req,res,nxt)=>{
 	  });
 	});
 });
-router.post('/salesinvoice',(req,res,nxt)=>{
+router.post('/salesinvoice',bodyParser.raw({
+        limit:'512mb'
+    	}),(req,res,nxt)=>{
 	
 	// Use connect method to connect to the server
 	MongoClient.connect(url, function(err, client) {
