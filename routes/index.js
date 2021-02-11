@@ -80,39 +80,35 @@ router.post('/salesinvoice/:id',async(req,res,next)=>{
 
 	});
 });
-router.get('/count/:service',(req,res,next)=>{
+router.get('/count/salesinvoice',async(req,res,next)=>{
 	
-	// Use connect method to connect to the server
-	MongoClient.connect(url, function(err, client) {
-		assert.equal(null, err);
-		const db = client.db(dbName);
-		db.collection(req.params.service).count((err,count)=>{
-			res.json({
-				status:'1',
+	await salesinvoice.count({}).then(count=>{
+		res.json({
+				status:1,
 				count:count,
-				err:err,
-			})
-		})
+			});
+	}).catch(e=>{
+		res.json({
+				status:0,
+				count:0
+			});
+	})
 
-	});
 })
 
-router.get('/delete/:service',(req,res,next)=>{
+router.get('/delete/salesinvoice',async(req,res,next)=>{
 
-	
-	// Use connect method to connect to the server
-	MongoClient.connect(url, function(err, client) {
-		assert.equal(null, err);
-		const db = client.db(dbName);
-		db.collection(req.params.service).deleteMany({},(err,result)=>{
-			res.json({
-				status:'1',
-				data:result,
-				err:err,
-			})
-		})
-
-	});
+	await salesinvoice.deleteMany({}).then(del=>{
+		res.json({
+				status:1,
+				response:del,
+			});
+	}).catch(e=>{
+		res.json({
+				status:0,
+				response:e
+			});
+	})
 })
 router.get('/test',(req,res,next)=>{
 	
