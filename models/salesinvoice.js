@@ -8,16 +8,6 @@ var schema=new Schema({
         required: true,
         unique: true,
     },
-    createdon: {
-        type: Date,
-        default: Date.now,
-        index: true,
-    },
-    modifiedon: {
-       type: Date,
-        default: Date.now,
-        index: true,
-    },
 },{
     strict: false,
 });
