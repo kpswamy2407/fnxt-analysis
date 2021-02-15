@@ -66,7 +66,7 @@ router.post('/salesinvoice/:id',async(req,res,next)=>{
 	for (const[field,val] of Object.entries(params)){
 		query[field]=val
 	}
-	await salesinvoice.updateOne({salesinvoiceid:req.params.id},query).then(result=>{
+	await salesinvoice.findOneAndUpdate({salesinvoiceid:req.params.id},query).then(result=>{
 		res.json({
 				status:1,
 				msg:"Details updated",
