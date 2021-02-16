@@ -42,7 +42,7 @@ router.get('/salesinvoice',async(req,res,next)=>{
 	if(req.query.hasOwnProperty('salesinvoiceid') && typeof(req.query.salesinvoiceid)!=='undefined'){
 		query["salesinvoiceid"]=req.query.salesinvoiceid
 	}
-
+	
 	await salesinvoice.find(query).select('salesinvoiceid salesmanInfo.salesmanName salesmanInfo.salesmanCode beatInfo.beatname beatInfo.beatcode buyerInfo.customername buyerInfo.uniqueRetailerCode buyerInfo.customercode godownInfo.godownName distributorInfo.distributorCode distributorInfo.distributorName buyerStateInfo.buyerStatecode buyerStateInfo.buyerStatename sellerStateInfo.sellerStatecode sellerStateInfo.sellerStatename transactionNumber invoiceDate invoiceType reference1Manual invoiceAmount invoiceOutstanding forumSalesInvoicecf.secondaryTransactionNumber forumSalesInvoicecf.secondaryTransactionNumber status nextStageName modifiedby createdon modifiedon recordReference versionNumber').sort({'invoiceDate': -1}).limit(Number(req.query.limit)).then(data=>{
 			res.json({
 				status:1,
@@ -66,11 +66,21 @@ router.post('/salesinvoice/:id',async(req,res,next)=>{
 	for (const[field,val] of Object.entries(params)){
 		query[field]=val
 	}
-	await salesinvoice.findOneAndUpdate({salesinvoiceid:req.params.id},query).then(result=>{
-		res.json({
+	
+	await salesinvoice.findOneAndUpdate({'salesinvoiceid':req.params.id},query).then(result=>{
+		if(result){
+			res.json({
+
 				status:1,
 				msg:"Details updated",
+			});	
+		}else{
+			res.json({
+				status:0,
+				msg:"Error while updating the details",
 			});
+		}
+		
 
 	}).catch(e=>{
 		res.json({
